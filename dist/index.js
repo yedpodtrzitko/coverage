@@ -326,6 +326,7 @@ function run() {
             const message = JSON.stringify(error instanceof Error ? error.message : error);
             core.setFailed(message);
         }
+        core.info('end of run');
     });
 }
 run();
@@ -439,7 +440,7 @@ function publishMessage(pr, message) {
 }
 exports.publishMessage = publishMessage;
 function scorePr(filesCover) {
-    var _a, _b, _c;
+    var _a, _b;
     let message = '';
     let passOverall = true;
     core.startGroup('Results');
@@ -468,11 +469,14 @@ function scorePr(filesCover) {
         message = message.concat(`\n## Modified Files\nNo covered modified files...`);
         core.info('No covered modified files in this PR ');
     }
-    const sha = (_c = github_1.context.payload.pull_request) === null || _c === void 0 ? void 0 : _c.head.sha.slice(0, 7);
-    const action = '[action](https://github.com/marketplace/actions/python-coverage)';
-    message = message.concat(`\n\n\n> **updated for commit: \`${sha}\` by ${action}🐍**`);
-    message = `\n> current status: ${passOverall ? '✅' : '❌'}`.concat(message);
-    publishMessage(github_1.context.issue.number, message);
+    core.info(message);
+    /*
+    const sha = context.payload.pull_request?.head.sha.slice(0, 7)
+    const action = '[action](https://github.com/marketplace/actions/python-coverage)'
+    message = message.concat(`\n\n\n> **updated for commit: \`${sha}\` by ${action}🐍**`)
+    message = `\n> current status: ${passOverall ? '✅' : '❌'}`.concat(message)
+    publishMessage(context.issue.number, message)
+    */
     core.endGroup();
     return passOverall;
 }

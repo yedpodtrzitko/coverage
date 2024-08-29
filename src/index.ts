@@ -34,6 +34,8 @@ async function run(): Promise<void> {
     const message = JSON.stringify(error instanceof Error ? error.message : error)
     core.setFailed(message)
   }
+
+  core.info('end of run')
 }
 
 run()
